@@ -452,8 +452,26 @@ public class Gui {
         cityField.setBounds(450, 550, 200, 25);
         farmerSignInPanel.add(cityField);
 
+        JLabel locLabel = new JLabel("DELIVERY LOCATIONS");
+        countryLabel.setBounds(350, 600, 200, 20);
+        farmerSignInPanel.add(countryLabel);
+
+        JButton locButton = new JButton();
+        locButton.setText("SELECT LOCATION");
+        locButton.setForeground(Color.RED);
+        locButton.setFont(font);
+        locButton.setBounds(450, 600, 400, 100);
+        farmerSignInPanel.add(locButton);
+
+        locButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<Location> loc = CreateLocFrame(addressField.getText());
+            }
+        });
+
         JLabel countryField = new JLabel("TURKEY");
-        countryField.setBounds(450, 600, 200, 25);
+        countryField.setBounds(450, 650, 200, 25);
         farmerSignInPanel.add(countryField);
 
         JButton enterButton = new JButton();
@@ -924,7 +942,7 @@ public class Gui {
         return myFarmerWalletPanel;
     }
 
-    public JPanel FarmerDepositPanel(){
+    public JPanel FarmerDepositPanel() {
         JPanel farmerDepositPanel = new JPanel();
         farmerDepositPanel.setSize(1000, 1000);
         farmerDepositPanel.setLayout(null);
@@ -1054,7 +1072,7 @@ public class Gui {
         return farmerDepositPanel;
     }
 
-    public JPanel FarmerWithdrawPanel(){
+    public JPanel FarmerWithdrawPanel() {
         JPanel farmerWithdrawPanel = new JPanel();
         farmerWithdrawPanel.setSize(1000, 1000);
         farmerWithdrawPanel.setLayout(null);
@@ -1184,7 +1202,13 @@ public class Gui {
         return farmerWithdrawPanel;
     }
 
-    public JPanel FarmerAcccountActivitiesPanel(){
+    public JPanel FarmerAcccountActivitiesPanel() {
+        ArrayList<String> farmerAccountActivities = new ArrayList<String>();
+        farmerAccountActivities.add("İŞLEM 1 + 50 LİRA + İSİM SOYİSİM + TARAFINDAN ÇEKİLDİ");
+        farmerAccountActivities.add("İŞLEM 2 + 150 LİRA + İSİM SOYİSİM + TARAFINDAN YATIRILDI");
+        farmerAccountActivities.add("İŞLEM 3 + 5000 LİRA + ÜRÜN 1 + BEDELİ OLARAK + İSİM SOYİSİM + TARAFINDAN GÖNDERİLDİ");
+        farmerAccountActivities.add("İŞLEM 3 + 7500 LİRA + ÜRÜN 2 + BEDELİ OLARAK+ İSİM2 SOYİSİM2 + TARAFINDAN GÖNDERİLDİ");
+
         JPanel farmerAcccountActivitiesPanel = new JPanel();
         farmerAcccountActivitiesPanel.setSize(1000, 1000);
         farmerAcccountActivitiesPanel.setLayout(null);
@@ -1204,10 +1228,17 @@ public class Gui {
         infoLabel.setBounds(225, 150, 800, 50);
         farmerAcccountActivitiesPanel.add(infoLabel);
 
-        //BURADA ACCOUNT ACTIVITIES LERİNİ TABLO OLARAK PAYLAŞACAZ.
-        //
-        //
-        //
+        DefaultListModel<String> listmodel = new DefaultListModel<>();
+        for (String activitie : farmerAccountActivities) {
+            listmodel.addElement(activitie);
+        }
+
+        JList<String> list1 = new JList<>(listmodel);
+        list1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list1.setLayoutOrientation(JList.VERTICAL);
+        list1.setVisibleRowCount(-1);
+        list1.setBounds(50, 275, 900, 600);
+        farmerAcccountActivitiesPanel.add(list1);
 
         JButton prevButton = new JButton("BACK");
         prevButton.setBounds(10, 10, 150, 40);
@@ -1223,6 +1254,12 @@ public class Gui {
     }
 
     public JPanel SoldProductsPanel() {
+        ArrayList<String> myOrdersActivities = new ArrayList<String>();
+        myOrdersActivities.add("ÜRÜN 1 + MÜŞTERİ 1 + E + FİYAT 1 + KARŞILIĞINDA SATILDI");
+        myOrdersActivities.add("ÜRÜN 2 + MÜŞTERİ 2 + E + FİYAT 2 + KARŞILIĞINDA SATILDI");
+        myOrdersActivities.add("ÜRÜN 3 + MÜŞTERİ 3 + E + FİYAT 3 + KARŞILIĞINDA SATILDI");
+        myOrdersActivities.add("ÜRÜN 4 + MÜŞTERİ 4 + E + FİYAT 4 + KARŞILIĞINDA SATILDI");
+
         JPanel soldProductsPanel = new JPanel();
         soldProductsPanel.setSize(1000, 1000);
         soldProductsPanel.setLayout(null);
@@ -1242,10 +1279,17 @@ public class Gui {
         infoLabel.setBounds(225, 150, 800, 50);
         soldProductsPanel.add(infoLabel);
 
-        //BURADA SAHİP OLDUĞU ÜRÜNLERİ TABLO OLARAK PAYLAŞACAZ.
-        //
-        //
-        //
+        DefaultListModel<String> listmodel = new DefaultListModel<>();
+        for (String activitie : myOrdersActivities) {
+            listmodel.addElement(activitie);
+        }
+
+        JList<String> list1 = new JList<>(listmodel);
+        list1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list1.setLayoutOrientation(JList.VERTICAL);
+        list1.setVisibleRowCount(-1);
+        list1.setBounds(50, 275, 900, 600);
+        soldProductsPanel.add(list1);
 
         JButton prevButton = new JButton("BACK");
         prevButton.setBounds(10, 10, 150, 40);
@@ -1261,6 +1305,12 @@ public class Gui {
     }
 
     public JPanel MyProductsPanel() {
+        ArrayList<String> myProductsActivities = new ArrayList<String>();
+        myProductsActivities.add("ÜRÜN 1 + 5000 + ADET + FİYAT: + 100.00 + TL/ADET");
+        myProductsActivities.add("ÜRÜN 2 + 7500 + ADET + FİYAT: + 1000.00 + TL/ADET");
+        myProductsActivities.add("ÜRÜN 3 + 100 + ADET + FİYAT: + 10.00 + TL/ADET");
+        myProductsActivities.add("ÜRÜN 4 + 50000 + ADET + FİYAT: + 300.00 + TL/ADET");
+
         JPanel myProductsPanel = new JPanel();
         myProductsPanel.setSize(1000, 1000);
         myProductsPanel.setLayout(null);
@@ -1280,10 +1330,18 @@ public class Gui {
         infoLabel.setBounds(225, 150, 700, 50);
         myProductsPanel.add(infoLabel);
 
-        //BURADA SAHİP OLDUĞU ÜRÜNLERİ TABLO OLARAK PAYLAŞACAZ.
-        //
-        //
-        //
+        DefaultListModel<String> listmodel = new DefaultListModel<>();
+        for (String activitie : myProductsActivities) {
+            listmodel.addElement(activitie);
+        }
+
+
+        JList<String> list1 = new JList<>(listmodel);
+        list1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list1.setLayoutOrientation(JList.VERTICAL);
+        list1.setVisibleRowCount(-1);
+        list1.setBounds(50, 275, 900, 600);
+        myProductsPanel.add(list1);
 
         JButton prevButton = new JButton("BACK");
         prevButton.setBounds(10, 10, 150, 40);
@@ -1677,7 +1735,7 @@ public class Gui {
         return myCustomerWalletPanel;
     }
 
-    public JPanel CustomerDepositPanel(){
+    public JPanel CustomerDepositPanel() {
         JPanel customerDepositPanel = new JPanel();
         customerDepositPanel.setSize(1000, 1000);
         customerDepositPanel.setLayout(null);
@@ -1807,7 +1865,7 @@ public class Gui {
         return customerDepositPanel;
     }
 
-    public JPanel CustomerWithdrawPanel(){
+    public JPanel CustomerWithdrawPanel() {
         JPanel customerWithdrawPanel = new JPanel();
         customerWithdrawPanel.setSize(1000, 1000);
         customerWithdrawPanel.setLayout(null);
@@ -1937,7 +1995,13 @@ public class Gui {
         return customerWithdrawPanel;
     }
 
-    public JPanel CustomerAccountActivitiesPanel(){
+    public JPanel CustomerAccountActivitiesPanel() {
+        ArrayList<String> accountActivities = new ArrayList<String>();
+        accountActivities.add("İŞLEM 1 + 50 LİRA + İSİM SOYİSİM + TARAFINDAN ÇEKİLDİ");
+        accountActivities.add("İŞLEM 2 + 150 LİRA + İSİM SOYİSİM + TARAFINDAN YATIRILDI");
+        accountActivities.add("İŞLEM 3 + 5000 LİRA + ÜRÜN 1 + BEDELİ OLARAK + İSİM SOYİSİM + TARAFINA GÖNDERİLDİ");
+        accountActivities.add("İŞLEM 3 + 7500 LİRA + ÜRÜN 2 + BEDELİ OLARAK+ İSİM2 SOYİSİM2 + TARAFINA GÖNDERİLDİ");
+
         JPanel customerAccountActivitiesPanel = new JPanel();
         customerAccountActivitiesPanel.setSize(1000, 1000);
         customerAccountActivitiesPanel.setLayout(null);
@@ -1957,10 +2021,17 @@ public class Gui {
         infoLabel.setBounds(225, 150, 800, 50);
         customerAccountActivitiesPanel.add(infoLabel);
 
-        //BURADA ACCOUNT ACTIVITIES LERİNİ TABLO OLARAK PAYLAŞACAZ.
-        //
-        //
-        //
+        DefaultListModel<String> listmodel = new DefaultListModel<>();
+        for (String activitie : accountActivities) {
+            listmodel.addElement(activitie);
+        }
+
+        JList<String> list1 = new JList<>(listmodel);
+        list1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list1.setLayoutOrientation(JList.VERTICAL);
+        list1.setVisibleRowCount(-1);
+        list1.setBounds(50, 275, 900, 600);
+        customerAccountActivitiesPanel.add(list1);
 
         JButton prevButton = new JButton("BACK");
         prevButton.setBounds(10, 10, 150, 40);
@@ -1976,6 +2047,12 @@ public class Gui {
     }
 
     public JPanel MyOrdersPanel() {
+        ArrayList<String> myOrdersActivities = new ArrayList<String>();
+        myOrdersActivities.add("ÜRÜN 1 + SATICI 1 + DEN + FİYAT 1 + KARŞILIĞINDA SATIN ALINDI");
+        myOrdersActivities.add("ÜRÜN 2 + SATICI 2 + DEN + FİYAT 2 + KARŞILIĞINDA SATIN ALINDI");
+        myOrdersActivities.add("ÜRÜN 3 + SATICI 3 + DEN + FİYAT 3 + KARŞILIĞINDA SATIN ALINDI");
+        myOrdersActivities.add("ÜRÜN 4 + SATICI 4 + DEN + FİYAT 4 + KARŞILIĞINDA SATIN ALINDI");
+
         JPanel myOrdersPanel = new JPanel();
         myOrdersPanel.setSize(1000, 1000);
         myOrdersPanel.setLayout(null);
@@ -1995,10 +2072,18 @@ public class Gui {
         infoLabel.setBounds(225, 150, 700, 50);
         myOrdersPanel.add(infoLabel);
 
-        //BURADA SAHİP OLDUĞU SİPARİŞLERİ TABLO OLARAK PAYLAŞACAZ.
-        //
-        //
-        //
+        DefaultListModel<String> listmodel = new DefaultListModel<>();
+
+        for (String activitie : myOrdersActivities) {
+            listmodel.addElement(activitie);
+        }
+
+        JList<String> list1 = new JList<>(listmodel);
+        list1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list1.setLayoutOrientation(JList.VERTICAL);
+        list1.setVisibleRowCount(-1);
+        list1.setBounds(50, 275, 900, 600);
+        myOrdersPanel.add(list1);
 
         JButton prevButton = new JButton("BACK");
         prevButton.setBounds(10, 10, 150, 40);
@@ -2150,4 +2235,75 @@ public class Gui {
         return customerManageAccountPanel;
     }
 
+    public ArrayList<Location> CreateLocFrame(String address) {
+        ArrayList<JCheckBox> checkboxes1 = new ArrayList<JCheckBox>();
+
+        String[] cities = {"Adana", "Ad�yaman", "Afyon", "A�r�", "Amasya", "Ankara", "Antalya", "Artvin",
+                "Ayd�n", "Bal�kesir", "Bilecik", "Bing�l", "Bitlis", "Bolu", "Burdur", "Bursa", "�anakkale",
+                "�ank�r�", "�orum", "Denizli", "Diyarbak�r", "Edirne", "Elaz��", "Erzincan", "Erzurum", "Eski�ehir",
+                "Gaziantep", "Giresun", "G�m��hane", "Hakkari", "Hatay", "Isparta", "Mersin", "�stanbul", "�zmir",
+                "Kars", "Kastamonu", "Kayseri", "K�rklareli", "K�r�ehir", "Kocaeli", "Konya", "K�tahya", "Malatya",
+                "Manisa", "Kahramanmara�", "Mardin", "Mu�la", "Mu�", "Nev�ehir", "Ni�de", "Ordu", "Rize", "Sakarya",
+                "Samsun", "Siirt", "Sinop", "Sivas", "Tekirda�", "Tokat", "Trabzon", "Tunceli", "�anl�urfa", "U�ak",
+                "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "K�r�kkale", "Batman", "��rnak",
+                "Bart�n", "Ardahan", "I�d�r", "Yalova", "Karab�k", "Kilis", "Osmaniye", "D�zce"};
+
+        JFrame locframe = new JFrame();
+        locframe.setSize(1000, 1000);
+        locframe.setLayout(new GridLayout(10, 9));
+
+
+        for (int i = 0; i < 81; i++) {
+            JCheckBox check1 = new JCheckBox(cities[i]);
+            checkboxes1.add(check1);
+            locframe.add(check1);
+        }
+
+        JButton okbutton1 = new JButton("SUBMIT");
+        locframe.add(okbutton1);
+
+        okbutton1.addActionListener(e -> {
+            ArrayList<Location> locations = new ArrayList<Location>();
+            for (int i = 0; i < checkboxes1.size(); i++) {
+                if (checkboxes1.get(i).isSelected()) {
+                    Location location = new Location(checkboxes1.get(i).getText(), address, i + 1);
+                    locations.add(location);
+                }
+            }
+
+//            this.locations = locations;
+//            farmerpanel.remove(LocButton);
+//            String s1 = "";
+//            for (Location location : locations) {
+//                s1 += location.loc + " , ";
+//            }
+//            JLabel showloclabel = new JLabel();
+//            showloclabel.setText(s1);
+//            showloclabel.setBounds(400, 400, 400, 50);
+//
+//            loclabel.setText("Locations You Selected :");
+//
+//            JButton changebutton1 = new JButton("Change");
+//            changebutton1.setBounds(850, 400, 100, 50);
+//            farmerpanel.add(changebutton1);
+//            changebutton1.addActionListener(new ActionListener() {
+//                public void actionPerformed(ActionEvent e) {
+//                    farmerpanel.remove(showloclabel);
+//                    CreateLocFrame(farmerpanel, LocButton, loclabel);
+//                }
+//
+//
+//            });
+//
+//            farmerpanel.add(showloclabel);
+//            farmerpanel.revalidate();
+//            farmerpanel.repaint();
+            locframe.dispose();
+
+        });
+
+        locframe.setVisible(true);
+
+        return locations;
+    }
 }
