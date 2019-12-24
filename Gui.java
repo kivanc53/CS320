@@ -483,6 +483,8 @@ public class Gui {
 		enterButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				farmerSignInPanel.add(locLabel);
+				farmerSignInPanel.add(locButton);
 				frame.remove(farmerSignInPanel);
 				frame.add(welcomePanel);
 
