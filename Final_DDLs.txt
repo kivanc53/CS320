@@ -1,11 +1,9 @@
 ------------------------------------------
-
 CREATE TABLE `account` (
   `acc` int(11) NOT NULL,
   `balance` double DEFAULT NULL,
   PRIMARY KEY (`acc`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
-
 ------------------------------------------
 
 CREATE TABLE `farmer` (
@@ -16,7 +14,6 @@ CREATE TABLE `farmer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
 ------------------------------------------
-
 CREATE TABLE `location` (
   `locationId` int(11) NOT NULL,
   `city` varchar(45) DEFAULT NULL,
