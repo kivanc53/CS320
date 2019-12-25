@@ -1,0 +1,5 @@
+
+* Some of the function object returning fuctions commented since they give error.Account returning method and user returning report excluded.
+* Transfer table is not created since given time did not meet expectations. 
+* Turkish chars can not be seen correctly. 
+* Balance change interface is not implemented but method is existed. 
