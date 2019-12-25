@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -208,7 +209,7 @@ public class Gui {
         enterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Username ile password un doÄŸru olup olmadÄ±ÄŸÄ±nÄ± kontrol et
+                // Username ile password un doðru olup olmadýðýný kontrol et
                 frame.remove(farmerEnterPanel);
                 frame.add(farmerAccountPanel);
 
@@ -273,7 +274,7 @@ public class Gui {
         enterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Username ile password un doÄŸru olup olmadÄ±ÄŸÄ±nÄ± kontrol et
+                // Username ile password un doðru olup olmadýðýný kontrol et
                 frame.remove(customerEnterPanel);
                 frame.add(customerAccountPanel);
 
@@ -483,14 +484,24 @@ public class Gui {
         enterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                farmerSignInPanel.add(locLabel);
-                farmerSignInPanel.add(locButton);
                 frame.remove(farmerSignInPanel);
                 frame.add(welcomePanel);
+                ArrayList<Location> tempL = new ArrayList();
+                ArrayList<Product> temppro = new ArrayList();
+                String temp = zipField.getText();
+                int ziptemp = Integer.parseInt(temp);
+                Location temploc = new Location(cityField.getText(),addressField.getText(),ziptemp);
 
-                //Create new Account
-                //Location location = new Location(cityField.getText(), addressField.getText(), Integer.parseInt(zipField.getText()));
-                //Farmer farmer = new Farmer(nameField.getText(), lastNameField.getText(), ssnField.getText(), userNameField.getText(), passwordField.getText(), account, emailField.getText(), phoneNumberField.getText(), location, locations);
+                Farmer tempFarmer = new Farmer(nameField.getText(),lastNameField.getText(), ssnField.getText(),
+                        userNameField.getText(), passwordField.getText(),
+                        new Account(), emailField.getText(),
+                        phoneNumberField.getText(),temploc,tempL, temppro);
+                try {
+                    DataBase.addFarmer(tempFarmer);
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
 
                 String msg = "Farmer " + nameField.getText() + " " + lastNameField.getText() + " enter successfully to the FARMBANK";
                 JOptionPane.showMessageDialog(null, msg);
@@ -625,8 +636,20 @@ public class Gui {
             public void actionPerformed(ActionEvent e) {
                 frame.remove(customerSignInPanel);
                 frame.add(welcomePanel);
+                String temp = zipField.getText();
+                int ziptemp = Integer.parseInt(temp);
+                Location temploc = new Location(cityField.getText(),addressField.getText(),ziptemp);
 
-                //database                      //Customer Ä± database ekleyecek.
+                Customer tempCust = new Customer(nameField.getText(),lastNameField.getText(), ssnField.getText(),
+                        userNameField.getText(), passwordField.getText(),
+                        new Account(), emailField.getText(),
+                        phoneNumberField.getText(),temploc);
+                try {
+                    DataBase.addCustomer(tempCust);
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
 
 
                 String msg = "User " + nameField.getText() + " " + lastNameField.getText() + " enter successfully to the FARMBANK";
@@ -634,6 +657,7 @@ public class Gui {
                 frame.validate();
                 frame.repaint();
             }
+
         });
 
         JButton prevButton = new JButton("BACK");
@@ -662,21 +686,21 @@ public class Gui {
         farmerAccountPanel.add(label2);
 
         JLabel nameSurnameLabel = new JLabel();
-        nameSurnameLabel.setText("Ä°sim Soyisim");   //database den Ã§ekilecek
+        nameSurnameLabel.setText("Ýsim Soyisim");   //database den çekilecek
         nameSurnameLabel.setForeground(Color.BLACK);
         nameSurnameLabel.setFont(font);
         nameSurnameLabel.setBounds(800, 50, 200, 50);
         farmerAccountPanel.add(nameSurnameLabel);
 
         JLabel accountIDLabel = new JLabel();
-        accountIDLabel.setText("Account ID");   //database den Ã§ekilecek
+        accountIDLabel.setText("Account ID");   //database den çekilecek
         accountIDLabel.setForeground(Color.BLACK);
         accountIDLabel.setFont(font);
         accountIDLabel.setBounds(800, 100, 200, 50);
         farmerAccountPanel.add(accountIDLabel);
 
         JLabel balanceLabel = new JLabel();
-        balanceLabel.setText("Balance");   //database den Ã§ekilecek
+        balanceLabel.setText("Balance");   //database den çekilecek
         balanceLabel.setForeground(Color.BLACK);
         balanceLabel.setFont(font);
         balanceLabel.setBounds(800, 150, 200, 50);
@@ -740,7 +764,7 @@ public class Gui {
         });
         farmerAccountPanel.add(manageAccountButton);
 
-        //KONUÅžULACAK
+        //KONUÞULACAK
 //        JButton statisticsButton = new JButton("STATISTICS");
 //        statisticsButton.setBounds(350, 150, 200, 40);
 //        statisticsButton.addActionListener(e -> {
@@ -835,7 +859,7 @@ public class Gui {
                 frame.remove(addProductPanel);
                 frame.add(farmerAccountPanel);
 
-                //database e ekleme             //Farmer Ä± database ekleyecek.
+                //database e ekleme             //Farmer ý database ekleyecek.
 
 
                 String msg = "YOUR PRODUCT HAS BEEN ADDED SUCCESFULLY";
@@ -872,15 +896,15 @@ public class Gui {
         label2.setBounds(375, 50, 500, 50);
         myFarmerWalletPanel.add(label2);
 
-        //Ä°SÄ°M SOY Ä°SÄ°M KISMI DATABASE DEN Ã‡EKÄ°LECEK GERÄ° KALANLA BÄ°RLEÅžECEK
+        //ÝSÝM SOY ÝSÝM KISMI DATABASE DEN ÇEKÝLECEK GERÝ KALANLA BÝRLEÞECEK
         JLabel infoLabel = new JLabel();
-        infoLabel.setText("Ä°SÄ°M SOY Ä°SÄ°M " + "  ' S WALLET");
+        infoLabel.setText("ÝSÝM SOY ÝSÝM " + "  ' S WALLET");
         infoLabel.setForeground(Color.BLACK);
         infoLabel.setFont(font2);
         infoLabel.setBounds(225, 150, 500, 50);
         myFarmerWalletPanel.add(infoLabel);
 
-        JButton depositButton = new JButton("DEPOSÄ°T");
+        JButton depositButton = new JButton("DEPOSÝT");
         depositButton.setBounds(350, 250, 200, 40);
         depositButton.addActionListener(e -> {
             frame.remove(myFarmerWalletPanel);
@@ -911,14 +935,14 @@ public class Gui {
         myFarmerWalletPanel.add(accountActivitiesButton);
 
         JLabel accountIDLabel = new JLabel();
-        accountIDLabel.setText("Account ID");   //database den Ã§ekilecek
+        accountIDLabel.setText("Account ID");   //database den çekilecek
         accountIDLabel.setForeground(Color.BLACK);
         accountIDLabel.setFont(font);
         accountIDLabel.setBounds(800, 100, 200, 50);
         myFarmerWalletPanel.add(accountIDLabel);
 
         JLabel balanceLabel = new JLabel();
-        balanceLabel.setText("Balance");   //database den Ã§ekilecek
+        balanceLabel.setText("Balance");   //database den çekilecek
         balanceLabel.setForeground(Color.BLACK);
         balanceLabel.setFont(font);
         balanceLabel.setBounds(800, 150, 200, 50);
@@ -1206,10 +1230,10 @@ public class Gui {
 
     public JPanel FarmerAcccountActivitiesPanel() {
         ArrayList<String> farmerAccountActivities = new ArrayList<String>();
-        farmerAccountActivities.add("Ä°ÅžLEM 1 + 50 LÄ°RA + Ä°SÄ°M SOYÄ°SÄ°M + TARAFINDAN Ã‡EKÄ°LDÄ°");
-        farmerAccountActivities.add("Ä°ÅžLEM 2 + 150 LÄ°RA + Ä°SÄ°M SOYÄ°SÄ°M + TARAFINDAN YATIRILDI");
-        farmerAccountActivities.add("Ä°ÅžLEM 3 + 5000 LÄ°RA + ÃœRÃœN 1 + BEDELÄ° OLARAK + Ä°SÄ°M SOYÄ°SÄ°M + TARAFINDAN GÃ–NDERÄ°LDÄ°");
-        farmerAccountActivities.add("Ä°ÅžLEM 3 + 7500 LÄ°RA + ÃœRÃœN 2 + BEDELÄ° OLARAK+ Ä°SÄ°M2 SOYÄ°SÄ°M2 + TARAFINDAN GÃ–NDERÄ°LDÄ°");
+        farmerAccountActivities.add("ÝÞLEM 1 + 50 LÝRA + ÝSÝM SOYÝSÝM + TARAFINDAN ÇEKÝLDÝ");
+        farmerAccountActivities.add("ÝÞLEM 2 + 150 LÝRA + ÝSÝM SOYÝSÝM + TARAFINDAN YATIRILDI");
+        farmerAccountActivities.add("ÝÞLEM 3 + 5000 LÝRA + ÜRÜN 1 + BEDELÝ OLARAK + ÝSÝM SOYÝSÝM + TARAFINDAN GÖNDERÝLDÝ");
+        farmerAccountActivities.add("ÝÞLEM 3 + 7500 LÝRA + ÜRÜN 2 + BEDELÝ OLARAK+ ÝSÝM2 SOYÝSÝM2 + TARAFINDAN GÖNDERÝLDÝ");
 
         JPanel farmerAcccountActivitiesPanel = new JPanel();
         farmerAcccountActivitiesPanel.setSize(1000, 1000);
@@ -1222,9 +1246,9 @@ public class Gui {
         label2.setBounds(450, 50, 500, 50);
         farmerAcccountActivitiesPanel.add(label2);
 
-        //Ä°SÄ°M SOY Ä°SÄ°M KISMI DATABASE DEN Ã‡EKÄ°LECEK GERÄ° KALANLA BÄ°RLEÅžECEK
+        //ÝSÝM SOY ÝSÝM KISMI DATABASE DEN ÇEKÝLECEK GERÝ KALANLA BÝRLEÞECEK
         JLabel infoLabel = new JLabel();
-        infoLabel.setText("Ä°SÄ°M SOY Ä°SÄ°M " + "  ' S ACCOUNT ACTIVITIES");
+        infoLabel.setText("ÝSÝM SOY ÝSÝM " + "  ' S ACCOUNT ACTIVITIES");
         infoLabel.setForeground(Color.BLACK);
         infoLabel.setFont(font2);
         infoLabel.setBounds(225, 150, 800, 50);
@@ -1257,10 +1281,10 @@ public class Gui {
 
     public JPanel SoldProductsPanel() {
         ArrayList<String> myOrdersActivities = new ArrayList<String>();
-        myOrdersActivities.add("ÃœRÃœN 1 + MÃœÅžTERÄ° 1 + E + FÄ°YAT 1 + KARÅžILIÄžINDA SATILDI");
-        myOrdersActivities.add("ÃœRÃœN 2 + MÃœÅžTERÄ° 2 + E + FÄ°YAT 2 + KARÅžILIÄžINDA SATILDI");
-        myOrdersActivities.add("ÃœRÃœN 3 + MÃœÅžTERÄ° 3 + E + FÄ°YAT 3 + KARÅžILIÄžINDA SATILDI");
-        myOrdersActivities.add("ÃœRÃœN 4 + MÃœÅžTERÄ° 4 + E + FÄ°YAT 4 + KARÅžILIÄžINDA SATILDI");
+        myOrdersActivities.add("ÜRÜN 1 + MÜÞTERÝ 1 + E + FÝYAT 1 + KARÞILIÐINDA SATILDI");
+        myOrdersActivities.add("ÜRÜN 2 + MÜÞTERÝ 2 + E + FÝYAT 2 + KARÞILIÐINDA SATILDI");
+        myOrdersActivities.add("ÜRÜN 3 + MÜÞTERÝ 3 + E + FÝYAT 3 + KARÞILIÐINDA SATILDI");
+        myOrdersActivities.add("ÜRÜN 4 + MÜÞTERÝ 4 + E + FÝYAT 4 + KARÞILIÐINDA SATILDI");
 
         JPanel soldProductsPanel = new JPanel();
         soldProductsPanel.setSize(1000, 1000);
@@ -1273,9 +1297,9 @@ public class Gui {
         label2.setBounds(450, 50, 500, 50);
         soldProductsPanel.add(label2);
 
-        //Ä°SÄ°M SOY Ä°SÄ°M KISMI DATABASE DEN Ã‡EKÄ°LECEK GERÄ° KALANLA BÄ°RLEÅžECEK
+        //ÝSÝM SOY ÝSÝM KISMI DATABASE DEN ÇEKÝLECEK GERÝ KALANLA BÝRLEÞECEK
         JLabel infoLabel = new JLabel();
-        infoLabel.setText("Ä°SÄ°M SOY Ä°SÄ°M " + "  ' S SOLD PRODUCTS");
+        infoLabel.setText("ÝSÝM SOY ÝSÝM " + "  ' S SOLD PRODUCTS");
         infoLabel.setForeground(Color.BLACK);
         infoLabel.setFont(font2);
         infoLabel.setBounds(225, 150, 800, 50);
@@ -1308,10 +1332,10 @@ public class Gui {
 
     public JPanel MyProductsPanel() {
         ArrayList<String> myProductsActivities = new ArrayList<String>();
-        myProductsActivities.add("ÃœRÃœN 1 + 5000 + ADET + FÄ°YAT: + 100.00 + TL/ADET");
-        myProductsActivities.add("ÃœRÃœN 2 + 7500 + ADET + FÄ°YAT: + 1000.00 + TL/ADET");
-        myProductsActivities.add("ÃœRÃœN 3 + 100 + ADET + FÄ°YAT: + 10.00 + TL/ADET");
-        myProductsActivities.add("ÃœRÃœN 4 + 50000 + ADET + FÄ°YAT: + 300.00 + TL/ADET");
+        myProductsActivities.add("ÜRÜN 1 + 5000 + ADET + FÝYAT: + 100.00 + TL/ADET");
+        myProductsActivities.add("ÜRÜN 2 + 7500 + ADET + FÝYAT: + 1000.00 + TL/ADET");
+        myProductsActivities.add("ÜRÜN 3 + 100 + ADET + FÝYAT: + 10.00 + TL/ADET");
+        myProductsActivities.add("ÜRÜN 4 + 50000 + ADET + FÝYAT: + 300.00 + TL/ADET");
 
         JPanel myProductsPanel = new JPanel();
         myProductsPanel.setSize(1000, 1000);
@@ -1324,9 +1348,9 @@ public class Gui {
         label2.setBounds(450, 50, 500, 50);
         myProductsPanel.add(label2);
 
-        //Ä°SÄ°M SOY Ä°SÄ°M KISMI DATABASE DEN Ã‡EKÄ°LECEK GERÄ° KALANLA BÄ°RLEÅžECEK
+        //ÝSÝM SOY ÝSÝM KISMI DATABASE DEN ÇEKÝLECEK GERÝ KALANLA BÝRLEÞECEK
         JLabel infoLabel = new JLabel();
-        infoLabel.setText("Ä°SÄ°M SOY Ä°SÄ°M " + "  ' S PRODUCTS");
+        infoLabel.setText("ÝSÝM SOY ÝSÝM " + "  ' S PRODUCTS");
         infoLabel.setForeground(Color.BLACK);
         infoLabel.setFont(font2);
         infoLabel.setBounds(225, 150, 700, 50);
@@ -1528,21 +1552,21 @@ public class Gui {
         customerAccountPanel.add(label2);
 
         JLabel nameSurnameLabel = new JLabel();
-        nameSurnameLabel.setText("Ä°sim Soyisim");   //database den Ã§ekilecek
+        nameSurnameLabel.setText("Ýsim Soyisim");   //database den çekilecek
         nameSurnameLabel.setForeground(Color.BLACK);
         nameSurnameLabel.setFont(font);
         nameSurnameLabel.setBounds(800, 50, 300, 50);
         customerAccountPanel.add(nameSurnameLabel);
 
         JLabel accountIDLabel = new JLabel();
-        accountIDLabel.setText("Account ID");   //database den Ã§ekilecek
+        accountIDLabel.setText("Account ID");   //database den çekilecek
         accountIDLabel.setForeground(Color.BLACK);
         accountIDLabel.setFont(font);
         accountIDLabel.setBounds(800, 100, 300, 50);
         customerAccountPanel.add(accountIDLabel);
 
         JLabel balanceLabel = new JLabel();
-        balanceLabel.setText("Balance");   //database den Ã§ekilecek
+        balanceLabel.setText("Balance");   //database den çekilecek
         balanceLabel.setForeground(Color.BLACK);
         balanceLabel.setFont(font);
         balanceLabel.setBounds(800, 150, 300, 50);
@@ -1620,19 +1644,19 @@ public class Gui {
     }
 
     public JPanel BuyProductPanel() {
-        ArrayList<String> productsAvailable = new ArrayList<String>(); // Customer'Ä±n bulunduÄŸu location'a satÄ±lan bÃ¼tÃ¼n Ã¼rÃ¼nlerin listesi
+        ArrayList<String> productsAvailable = new ArrayList<String>(); // Customer'ýn bulunduðu location'a satýlan bütün ürünlerin listesi
         productsAvailable.add("PRODUCT NAME 1");
         productsAvailable.add("PRODUCT NAME 2");
         productsAvailable.add("PRODUCT NAME 3");
         productsAvailable.add("PRODUCT NAME 4");
 
-        ArrayList<String> farmersdeliver = new ArrayList<String>();	// SeÃ§ili bir product'Ä± custumer'Ä±n location'una satan bÃ¼tÃ¼n farmerlarÄ±n listesi
+        ArrayList<String> farmersdeliver = new ArrayList<String>();	// Seçili bir product'ý custumer'ýn location'una satan bütün farmerlarýn listesi
         farmersdeliver.add("FARMER NAME 1");
         farmersdeliver.add("FARMER NAME 2");
         farmersdeliver.add("FARMER NAME 3");
         farmersdeliver.add("FARMER NAME 4");
 
-        ArrayList<String> productInfosOnTheBag = new ArrayList<String>(); // Customer'in Sepetine eklediÄŸi bÃ¼tÃ¼n Ã¼rÃ¼nlerin listesi
+        ArrayList<String> productInfosOnTheBag = new ArrayList<String>(); // Customer'in Sepetine eklediði bütün ürünlerin listesi
         productInfosOnTheBag.add("PRODUCT 1 INFO");
         productInfosOnTheBag.add("PRODUCT 2 INFO");
         productInfosOnTheBag.add("PRODUCT 3 INFO");
@@ -1650,28 +1674,28 @@ public class Gui {
         buyProductPanel.add(label2);
 
         JLabel nameSurnameLabel = new JLabel();
-        nameSurnameLabel.setText("Ä°sim Soyisim");   //database den Ã§ekilecek
+        nameSurnameLabel.setText("Ýsim Soyisim");   //database den çekilecek
         nameSurnameLabel.setForeground(Color.BLACK);
         nameSurnameLabel.setFont(font);
         nameSurnameLabel.setBounds(800, 50, 300, 50);
         buyProductPanel.add(nameSurnameLabel);
 
         JLabel accountIDLabel = new JLabel();
-        accountIDLabel.setText("Account ID");   //database den Ã§ekilecek
+        accountIDLabel.setText("Account ID");   //database den çekilecek
         accountIDLabel.setForeground(Color.BLACK);
         accountIDLabel.setFont(font);
         accountIDLabel.setBounds(800, 100, 300, 50);
         buyProductPanel.add(accountIDLabel);
 
         JLabel balanceLabel = new JLabel();
-        balanceLabel.setText("Balance");   //database den Ã§ekilecek
+        balanceLabel.setText("Balance");   //database den çekilecek
         balanceLabel.setForeground(Color.BLACK);
         balanceLabel.setFont(font);
         balanceLabel.setBounds(800, 150, 300, 50);
         buyProductPanel.add(balanceLabel);
 
         JLabel locationLabel = new JLabel();
-        locationLabel.setText("Location");   //database den Ã§ekilecek
+        locationLabel.setText("Location");   //database den çekilecek
         locationLabel.setForeground(Color.BLACK);
         locationLabel.setFont(font);
         locationLabel.setBounds(800, 200, 300, 50);
@@ -1779,15 +1803,15 @@ public class Gui {
         label2.setBounds(375, 50, 500, 50);
         myCustomerWalletPanel.add(label2);
 
-        //Ä°SÄ°M SOY Ä°SÄ°M KISMI DATABASE DEN Ã‡EKÄ°LECEK GERÄ° KALANLA BÄ°RLEÅžECEK
+        //ÝSÝM SOY ÝSÝM KISMI DATABASE DEN ÇEKÝLECEK GERÝ KALANLA BÝRLEÞECEK
         JLabel infoLabel = new JLabel();
-        infoLabel.setText("Ä°SÄ°M SOY Ä°SÄ°M " + "  ' S WALLET");
+        infoLabel.setText("ÝSÝM SOY ÝSÝM " + "  ' S WALLET");
         infoLabel.setForeground(Color.BLACK);
         infoLabel.setFont(font2);
         infoLabel.setBounds(225, 150, 500, 50);
         myCustomerWalletPanel.add(infoLabel);
 
-        JButton depositButton = new JButton("DEPOSÄ°T");
+        JButton depositButton = new JButton("DEPOSÝT");
         depositButton.setBounds(350, 250, 200, 40);
         depositButton.addActionListener(e -> {
             frame.remove(myCustomerWalletPanel);
@@ -1818,14 +1842,14 @@ public class Gui {
         myCustomerWalletPanel.add(accountActivitiesButton);
 
         JLabel accountIDLabel = new JLabel();
-        accountIDLabel.setText("Account ID");   //database den Ã§ekilecek
+        accountIDLabel.setText("Account ID");   //database den çekilecek
         accountIDLabel.setForeground(Color.BLACK);
         accountIDLabel.setFont(font);
         accountIDLabel.setBounds(800, 100, 200, 50);
         myCustomerWalletPanel.add(accountIDLabel);
 
         JLabel balanceLabel = new JLabel();
-        balanceLabel.setText("Balance");   //database den Ã§ekilecek
+        balanceLabel.setText("Balance");   //database den çekilecek
         balanceLabel.setForeground(Color.BLACK);
         balanceLabel.setFont(font);
         balanceLabel.setBounds(800, 150, 200, 50);
@@ -2113,10 +2137,10 @@ public class Gui {
 
     public JPanel CustomerAccountActivitiesPanel() {
         ArrayList<String> accountActivities = new ArrayList<String>();
-        accountActivities.add("Ä°ÅžLEM 1 + 50 LÄ°RA + Ä°SÄ°M SOYÄ°SÄ°M + TARAFINDAN Ã‡EKÄ°LDÄ°");
-        accountActivities.add("Ä°ÅžLEM 2 + 150 LÄ°RA + Ä°SÄ°M SOYÄ°SÄ°M + TARAFINDAN YATIRILDI");
-        accountActivities.add("Ä°ÅžLEM 3 + 5000 LÄ°RA + ÃœRÃœN 1 + BEDELÄ° OLARAK + Ä°SÄ°M SOYÄ°SÄ°M + TARAFINA GÃ–NDERÄ°LDÄ°");
-        accountActivities.add("Ä°ÅžLEM 3 + 7500 LÄ°RA + ÃœRÃœN 2 + BEDELÄ° OLARAK+ Ä°SÄ°M2 SOYÄ°SÄ°M2 + TARAFINA GÃ–NDERÄ°LDÄ°");
+        accountActivities.add("ÝÞLEM 1 + 50 LÝRA + ÝSÝM SOYÝSÝM + TARAFINDAN ÇEKÝLDÝ");
+        accountActivities.add("ÝÞLEM 2 + 150 LÝRA + ÝSÝM SOYÝSÝM + TARAFINDAN YATIRILDI");
+        accountActivities.add("ÝÞLEM 3 + 5000 LÝRA + ÜRÜN 1 + BEDELÝ OLARAK + ÝSÝM SOYÝSÝM + TARAFINA GÖNDERÝLDÝ");
+        accountActivities.add("ÝÞLEM 3 + 7500 LÝRA + ÜRÜN 2 + BEDELÝ OLARAK+ ÝSÝM2 SOYÝSÝM2 + TARAFINA GÖNDERÝLDÝ");
 
         JPanel customerAccountActivitiesPanel = new JPanel();
         customerAccountActivitiesPanel.setSize(1000, 1000);
@@ -2129,9 +2153,9 @@ public class Gui {
         label2.setBounds(450, 50, 500, 50);
         customerAccountActivitiesPanel.add(label2);
 
-        //Ä°SÄ°M SOY Ä°SÄ°M KISMI DATABASE DEN Ã‡EKÄ°LECEK GERÄ° KALANLA BÄ°RLEÅžECEK
+        //ÝSÝM SOY ÝSÝM KISMI DATABASE DEN ÇEKÝLECEK GERÝ KALANLA BÝRLEÞECEK
         JLabel infoLabel = new JLabel();
-        infoLabel.setText("Ä°SÄ°M SOY Ä°SÄ°M " + "  ' S ACCOUNT ACTIVITIES");
+        infoLabel.setText("ÝSÝM SOY ÝSÝM " + "  ' S ACCOUNT ACTIVITIES");
         infoLabel.setForeground(Color.BLACK);
         infoLabel.setFont(font2);
         infoLabel.setBounds(225, 150, 800, 50);
@@ -2164,10 +2188,10 @@ public class Gui {
 
     public JPanel MyOrdersPanel() {
         ArrayList<String> myOrdersActivities = new ArrayList<String>();
-        myOrdersActivities.add("ÃœRÃœN 1 + SATICI 1 + DEN + FÄ°YAT 1 + KARÅžILIÄžINDA SATIN ALINDI");
-        myOrdersActivities.add("ÃœRÃœN 2 + SATICI 2 + DEN + FÄ°YAT 2 + KARÅžILIÄžINDA SATIN ALINDI");
-        myOrdersActivities.add("ÃœRÃœN 3 + SATICI 3 + DEN + FÄ°YAT 3 + KARÅžILIÄžINDA SATIN ALINDI");
-        myOrdersActivities.add("ÃœRÃœN 4 + SATICI 4 + DEN + FÄ°YAT 4 + KARÅžILIÄžINDA SATIN ALINDI");
+        myOrdersActivities.add("ÜRÜN 1 + SATICI 1 + DEN + FÝYAT 1 + KARÞILIÐINDA SATIN ALINDI");
+        myOrdersActivities.add("ÜRÜN 2 + SATICI 2 + DEN + FÝYAT 2 + KARÞILIÐINDA SATIN ALINDI");
+        myOrdersActivities.add("ÜRÜN 3 + SATICI 3 + DEN + FÝYAT 3 + KARÞILIÐINDA SATIN ALINDI");
+        myOrdersActivities.add("ÜRÜN 4 + SATICI 4 + DEN + FÝYAT 4 + KARÞILIÐINDA SATIN ALINDI");
 
         JPanel myOrdersPanel = new JPanel();
         myOrdersPanel.setSize(1000, 1000);
@@ -2180,9 +2204,9 @@ public class Gui {
         label2.setBounds(450, 50, 500, 50);
         myOrdersPanel.add(label2);
 
-        //Ä°SÄ°M SOY Ä°SÄ°M KISMI DATABASE DEN Ã‡EKÄ°LECEK GERÄ° KALANLA BÄ°RLEÅžECEK
+        //ÝSÝM SOY ÝSÝM KISMI DATABASE DEN ÇEKÝLECEK GERÝ KALANLA BÝRLEÞECEK
         JLabel infoLabel = new JLabel();
-        infoLabel.setText("Ä°SÄ°M SOY Ä°SÄ°M " + "  ' S ORDERS");
+        infoLabel.setText("ÝSÝM SOY ÝSÝM " + "  ' S ORDERS");
         infoLabel.setForeground(Color.BLACK);
         infoLabel.setFont(font2);
         infoLabel.setBounds(225, 150, 700, 50);
@@ -2328,7 +2352,7 @@ public class Gui {
                 frame.remove(customerManageAccountPanel);
                 frame.add(customerAccountPanel);
 
-                //database e ekleme             //Farmer Ä± database ekleyecek.
+                //database e ekleme             //Farmer ý database ekleyecek.
 
 
                 String msg = "YOUR ACCOUNT HAS BEEN UPDATED SUCCESFULLY";
@@ -2356,13 +2380,13 @@ public class Gui {
 
         String[] cities = {"Adana", "Adiyaman", "Afyon", "Agri", "Amasya", "Ankara", "Antalya", "Artvin",
                 "Aydin", "Balikesir", "Bilecik", "Bingol", "Bitlis", "Bolu", "Burdur", "Bursa", "Canakkale",
-                "Cankiri", "Corum", "Denizli", "Diyarbakir", "Edirne", "ElazÄ±g", "Erzincan", "Erzurum", "Eskisehir",
+                "Cankiri", "Corum", "Denizli", "Diyarbakir", "Edirne", "Elazýg", "Erzincan", "Erzurum", "Eskisehir",
                 "Gaziantep", "Giresun", "Gumushane", "Hakkari", "Hatay", "Isparta", "Mersin", "Istanbul", "Izmir",
                 "Kars", "Kastamonu", "Kayseri", "Kirklareli", "Kirsehir", "Kocaeli", "Konya", "Kutahya", "Malatya",
                 "Manisa", "Kahramanmaras", "Mardin", "Mugla", "Mus", "Nevsehir", "Nigde", "Ordu", "Rize", "Sakarya",
                 "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdag", "Tokat", "Trabzon", "Tunceli", "Sanliurfa", "Usak",
                 "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kirikkale", "Batman", "Sirnak",
-                "Bartin", "Ardahan", "Igdir", "Yalova", "KarabÃ¼k", "Kilis", "Osmaniye", "DÃ¼zce"};
+                "Bartin", "Ardahan", "Igdir", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"};
 
         JFrame locframe = new JFrame();
         locframe.setSize(1000, 1000);
